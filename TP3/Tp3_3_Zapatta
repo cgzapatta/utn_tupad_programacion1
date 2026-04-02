@@ -1,0 +1,200 @@
+# Ejercicio 3
+
+lunes1 = ""
+lunes2 = ""
+lunes3 = ""
+lunes4 = ""
+
+martes1 = ""
+martes2 = ""
+martes3 = ""
+
+turnos_lunes = 0
+turnos_martes = 0
+
+nombre_operador = input("Ingrese el nombre del operador: ")
+
+while not nombre_operador.isalpha():
+    print("Error: El nombre solo debe contener letras")
+    nombre_operador = input("Vuelva a ingresar el nombre del operador: ")   
+
+while True:
+    print("\n1. Reservar turno\n2. Cancelar turno (por nombre)\n3. Ver agenda del día\n4. Ver resumen general\n5. Cerrar sistema\n")
+    
+    opcion = input("ingrese opcion: ")
+    if not opcion.isdigit() or int(opcion) < 1 or int(opcion) > 5:
+        print("Error: ingrese una opcion correcta.")    
+    opcion = int(opcion)
+
+    if opcion == 1:
+        print("Rervando turno")
+        while True:
+            dia = input("LUNES = 1 ó MARTES = 2, elegir dia: ")
+            if not dia.isdigit() or int(dia) < 1 or int(dia) > 2:
+                print("Error: ingrese una opcion correcta.")    
+            else:
+                dia = int(dia)
+                break
+        nombre_paciente = input("Ingrese el nombre del paciente: ")
+        while not nombre_paciente.isalpha():
+            print("Error: El nombre solo debe contener letras")
+            nombre_paciente = input("Vuelva a ingresar nombre del paciente: ")
+        if dia == 1:
+            if lunes1 == nombre_paciente or lunes2 == nombre_paciente or lunes3 == nombre_paciente or lunes4 == nombre_paciente:
+                print("El paciente ya tiene turno, verifique")
+            else:
+                if lunes1 == "":
+                    lunes1 = nombre_paciente
+                    turnos_lunes += 1
+                    print("Turno reservado")
+                elif lunes2 == "":
+                    lunes2 = nombre_paciente
+                    turnos_lunes += 1
+                    print("Turno reservado")
+                elif lunes3 == "":
+                    lunes3 = nombre_paciente
+                    turnos_lunes += 1
+                    print("Turno reservado")
+                elif lunes4 == "":
+                    lunes4 = nombre_paciente
+                    turnos_lunes += 1
+                    print("Turno reservado")
+                else:
+                    print("No hay cupos el lunes")
+
+
+        else:
+            if martes1 == nombre_paciente or martes2 == nombre_paciente or martes3 == nombre_paciente:
+                print("El paciente ya tiene turno, verifique")
+            else:
+                if martes1 == "":
+                    martes1 = nombre_paciente
+                    turnos_martes += 1
+                    print("Turno reservado")
+                elif martes2 == "":
+                    martes2 = nombre_paciente
+                    turnos_martes += 1
+                    print("Turno reservado")
+                elif martes3 == "":
+                    martes3 = nombre_paciente
+                    turnos_martes += 1
+                    print("Turno reservado")
+                else:
+                    print("No hay cupos el martes")
+
+    if opcion == 2:
+        print("Cancelando turno")
+        while True:
+            dia = input("LUNES = 1 ó MARTES = 2, elegir dia: ")
+            if not dia.isdigit() or int(dia) < 1 or int(dia) > 2:
+                print("Error: ingrese una opcion correcta.")    
+            else:
+                dia = int(dia)
+                break
+        nombre_paciente = input("Ingrese el nombre del paciente: ")
+        while not nombre_paciente.isalpha():
+            print("Error: El nombre solo debe contener letras")
+            nombre_paciente = input("Vuelva a ingresar nombre del paciente: ")
+        if dia == 1:
+            if lunes1 == nombre_paciente:
+                lunes1 = ""
+                turnos_lunes -= 1
+                print("Turno cancelado")
+            elif lunes2 == nombre_paciente:
+                lunes2 = ""
+                turnos_lunes -= 1
+                print("Turno cancelado")
+            elif lunes3 == nombre_paciente:
+                lunes3 = ""
+                turnos_lunes -= 1
+                print("Turno cancelado")
+            elif lunes4 == nombre_paciente:
+                lunes4 = ""
+                turnos_lunes -= 1
+                print("Turno cancelado")
+            else:
+                print("El paciente no tiene turno el lunes")
+
+
+        else:
+            if martes1 == nombre_paciente:
+                martes1 = ""
+                turnos_martes -= 1
+                print("Turno cancelado")
+            elif martes2 == nombre_paciente:
+                martes2 = ""
+                turnos_martes -= 1
+                print("Turno cancelado")
+            elif martes3 == nombre_paciente:
+                martes3 = ""
+                turnos_martes -= 1
+                print("Turno cancelado")
+            else:
+                print("El paciente no tiene turno el martes")
+
+    elif opcion == 3:
+        print("Mostrando turnos del dia")
+        while True:
+            dia = input("LUNES = 1 ó MARTES = 2, elegir dia: ")
+            if not dia.isdigit() or int(dia) < 1 or int(dia) > 2:
+                print("Error: ingrese una opcion correcta.")    
+            else:
+                dia = int(dia)
+                break
+        if dia == 1:
+            print(f"Turnos del dia lunes")
+            if lunes1 == "":
+                print(f"Primer turno: LIBRE")
+            else:
+                print(f"Primer turno: {lunes1}")
+            if lunes2 == "":
+                print(f"Segundo turno: LIBRE")
+            else:
+                print(f"Segundo turno: {lunes2}")
+            if lunes3 == "":
+                print(f"Tercer turno: LIBRE")
+            else:
+                print(f"Tercer turno: {lunes3}")
+            if lunes4 == "":
+                    print(f"Cuarto turno: LIBRE")
+            else:
+                print(f"Cuarto turno: {lunes4}")
+            
+        if dia == 2:
+            print(f"Turnos del dia martes")
+            if martes1 == "":
+                print(f"Primer turno: LIBRE")
+            else:
+                print(f"Primer turno: {martes1}")
+            if martes2 == "":
+                print(f"Segundo turno: LIBRE")
+            else:
+                print(f"Segundo turno: {martes2}")
+            if martes3 == "":
+                print(f"Tercer turno: LIBRE")
+            else:
+                print(f"Tercer turno: {martes3}")
+
+    elif opcion == 4:
+        libres_lunes = 4 - turnos_lunes
+        libres_martes = 3 - turnos_martes
+        print("Lunes")
+        print(f"Ocupados: {turnos_lunes}")
+        print(f"Libres: {libres_lunes}")
+        print("Martes")
+        print(f"Ocupados: {turnos_martes}")
+        print(f"Libres: {libres_martes}")
+        if turnos_lunes < turnos_martes:
+            dia_mas_turnos = turnos_martes
+        elif turnos_lunes > turnos_martes:
+            dia_mas_turnos = turnos_lunes
+        else:
+            dia_mas_turnos = "empate"
+        if dia_mas_turnos == "empate":
+            print(f"Dia con mas turnos: {dia_mas_turnos}, y la cantidad es {turnos_lunes}")
+        else:
+            print(f"Dia con mas turnos: {dia_mas_turnos}")
+
+    elif opcion == 5:
+        print("Programa cerrado")
+        break

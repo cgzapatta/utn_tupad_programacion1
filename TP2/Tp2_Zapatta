@@ -1,0 +1,110 @@
+#Ejercicio 1
+edad = int(input("Ingrese su edad:"))
+if edad >= 18:
+    print("Eres mayor de edad") 
+
+#Ejercicio 2
+nota = int(input("Ingrese su nota:"))
+if nota >= 6:
+    print("Aprobado")
+else:
+    print("Desaprobado")
+
+#Ejercicio 3
+numero = int(input("Ingrese un numero par:"))
+if numero % 2 == 0:
+    print("Has ingresado un numero par")
+else:
+    print("Has ingresado un numero impar")  
+
+#Ejercicio 4
+edad = int(input("Ingrese su edad:"))
+if edad < 12:
+    print("Eres un niño/a")       
+elif edad < 18:
+    print("Eres un adolescente")
+elif edad > 18 and edad < 30: 
+    print("Eres un Adulto/a joven")    
+elif edad >= 30:
+    print("Eres un adulto/a")    
+
+#Ejercicio 5
+contraseña = input("Ingrese su contraseña:")
+if len(contraseña) >= 8 and len(contraseña) <= 14:
+    print("Ha ingresado una contraseña válida")
+else:
+    print("Por favor, ingrese una contraseña de entre 8 y 14 caracteres")   
+
+#Ejercicio 6
+consumo = int(input("Ingrese su consumo mensual de energía en kWh:"))
+if consumo < 150:  
+    print("Consumo bajo")      
+elif consumo >= 150 and consumo <= 300:
+    print("Consumo medio")
+elif consumo > 300 and consumo <= 500:
+    print("Consumo alto")  
+else:
+    print("Considere medidas de ahorro energético")  
+
+#Ejercicio 7
+frase = input("Ingrese una frase o palabra: ")
+if frase[-1].lower() in 'aeiou':
+    print(frase + "!")
+else:
+    print(frase)
+
+#Ejercicio 8
+nombre = input("Ingrese su nombre: ")
+opcion = int(input("Ingrese 1, 2 o 3 dependiendo de la opción que desee: "))
+if opcion == 1:
+    print(nombre.upper())
+elif opcion == 2:
+    print(nombre.lower())
+elif opcion == 3:
+    print(nombre.title())
+else:
+    print("Opción inválida")
+
+#Ejercicio 9
+magnitud = float(input("Ingrese la magnitud del terremoto: "))
+if magnitud < 3:
+    print("Muy leve")
+elif magnitud < 4:
+    print("Leve")
+elif magnitud < 5:
+    print("Moderado")
+elif magnitud < 6:
+    print("Fuerte")
+elif magnitud < 7:
+    print("Muy Fuerte")
+else:
+    print("Extremo")
+
+#Ejercicio 10
+hemisferio = input("Ingrese el hemisferio: ")
+mes = int(input("Ingrese el mes: "))
+dia = int(input("Ingrese el día: "))
+
+if (mes == 12 and dia >= 21) or (mes <= 3 and (mes < 3 or dia <= 20)):
+    estacion_norte = "Invierno"
+elif (mes == 3 and dia >= 21) or (mes <= 6 and (mes < 6 or dia <= 20)):
+    estacion_norte = "Primavera"
+elif (mes == 6 and dia >= 21) or (mes <= 9 and (mes < 9 or dia <= 20)):
+    estacion_norte = "Verano"
+else:
+    estacion_norte = "Otoño"
+
+
+if hemisferio == "N":
+    estacion = estacion_norte
+else:
+    if estacion_norte == "Invierno":
+        estacion = "Verano"
+    elif estacion_norte == "Verano":
+        estacion = "Invierno"
+    elif estacion_norte == "Primavera":
+        estacion = "Otoño"
+    else:
+        estacion = "Primavera"
+
+print("Estás en:", estacion)

@@ -1,0 +1,80 @@
+#Ejercicio 5
+import subprocess #Agrego esto para poder probar mas facil el programa, es mas claro.
+
+vida_gladiador = 100
+vida_enemigo = 100
+pociones = 3
+daño_pesado = 15
+daño_enemigo = 12
+turno_gladiador = True #No lo usé en el programa
+
+nombre = input("Ingrese nombre del gladiador: ")
+
+while not nombre.isalpha() :
+    subprocess.run("cls", shell=True)
+    print("Error: El nombre solo debe contener letras")
+    nombre = input("Ingrese nuevamente el nombre del gladiador: ")
+
+while True:
+    subprocess.run("cls", shell=True)  #Me permite borrar todo y ver mas claro lo que hago
+    print(f"\nEscape Room:La Arena del Gladiador - El gladiador es: {nombre}")
+    print("\n1. Ataque Pesado")
+    print("2. Ráfaga Veloz")
+    print("3. Curar")
+    print("4. Salir\n")
+
+    print(f"Vida {nombre}: {vida_gladiador}/100 ")
+    print(f"Vida enemigo: {vida_enemigo}/100")
+    print(f"Cantidad de pociones: {pociones}/3")
+
+    opcion = input("\ningrese opcion: ")
+    while not opcion.isdigit() or int(opcion) < 1 or int(opcion) > 3:
+        print("Error: ingrese una opcion correcta.")
+        opcion = input("ingrese opcion: ")   
+    opcion = int(opcion)
+
+    print("\nTu turno")
+    if opcion == 1:
+
+        if vida_enemigo < 20:
+            vida_enemigo -= (daño_pesado * 1.5)
+            print(f"CRITICO!! Atacaste al enemigo por {(daño_pesado * 1.5)}")
+        else:
+            vida_enemigo -= daño_pesado
+            print(f"Atacaste al enemigo por {daño_pesado}")
+    
+    elif opcion == 2:
+        print("¡Inicias una ráfaga de golpes! ")
+        for x in range(1,4):
+            vida_enemigo -= 5
+            print("Golpe conectado por 5 de daño")
+
+    elif opcion == 3:
+
+        if pociones > 0:
+            vida_gladiador += 30
+            if vida_gladiador > 100:
+                vida_gladiador = 100
+            pociones -= 1
+            print("Usaste una pocion, te curaste 30 puntos de vida")
+
+        else:
+            print("No quedan pociones, perdiste el turno")
+
+    elif opcion == 4:
+        print("\nPrograma cerrado")
+        break
+
+    vida_gladiador -= 12
+    print("\nTurno del enemigo")
+    print("El enemigo te atacó por 12 puntos de daño")            
+    input("\nEnter para continuar")
+
+    if vida_enemigo <= 0 or vida_gladiador <= 0:  
+        subprocess.run("cls", shell=True)
+        if vida_gladiador >= 0:
+            print(f"\n¡VICTORIA! {nombre} ha ganado la batalla." )
+        else:
+            print("\nDERROTA. Has caído en combate.")
+        break
+print("Game over")

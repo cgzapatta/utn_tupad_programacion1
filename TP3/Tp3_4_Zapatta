@@ -1,0 +1,125 @@
+#Ejercicio 4
+import subprocess #Agrego esto para poder probar mas facil el programa, es mas claro.
+
+
+energia = 100
+tiempo = 12
+cerraduras_abiertas = 0
+alarma = False
+codigo_parcial = ""
+
+contador_forzar = 0
+
+nombre = input("Ingrese nombre del agente: ")
+
+while not nombre.isalpha() :
+    subprocess.run("cls", shell=True)
+    print("Error: El nombre solo debe contener letras")
+    nombre = input("Ingrese nuevamente el nombre del agente: ")
+
+
+while True:
+    subprocess.run("cls", shell=True)  #Me permite borrar todo y ver mas claro lo que hago
+    print(f"\nEscape Room: La Bóveda - El agente es: {nombre}")
+    print("\n1. Forzar cerradura (costo: -20 energía, -2 tiempo)")
+    print("2. Hackear panel (costo: -10 energía, -3 tiempo)")
+    print("3. Descansar (costo: +15 energía (máx 100), -1 tiempo; si alarma ON: -10 energía extra)")
+    print("4. Salir\n")
+
+    print(f"Energia actual: {energia}/100 ")
+    print(f"Tiempo restante: {tiempo}/12")
+    print(f"Cerraduras abiertas: {cerraduras_abiertas}/3")
+
+    opcion = input("\ningrese opcion: ")
+    while not opcion.isdigit() or int(opcion) < 1 or int(opcion) > 4:
+        print("Error: ingrese una opcion correcta.")
+        opcion = input("ingrese opcion: ")   
+    opcion = int(opcion)
+
+    if opcion == 1:
+        energia -= 20
+        tiempo -=2
+
+        contador_forzar += 1
+        if contador_forzar == 3:
+            alarma = True
+            print("Se activo la alarma")
+            input("\nEnter para continuar")
+            continue
+
+        print("\nElija un numero del 1 a 3")
+        numero = input("Numero: ")
+        while not numero.isdigit() or int(numero) < 1 or int(numero) > 3:
+            print("Error: ingrese un numero correcto.")
+            numero = input("ingrese numero: ")   
+        numero = int(numero)
+
+        if numero == 3:
+            cerraduras_abiertas += 1
+            print("Se abrio una cerradura")            
+            print("Se activo la alarma")
+            input("\nEnter para continuar")
+            alarma = True
+
+        elif numero == 2:
+            cerraduras_abiertas += 1
+            print("Se abrio una cerradura")
+            input("\nEnter para continuar")
+
+        else:
+            cerraduras_abiertas += 1
+            print("Se abrio una cerradura")
+            input("\nEnter para continuar")
+
+    elif opcion == 2:
+        energia -= 10
+        tiempo -= 3
+        contador_forzar = 0
+
+        for x in range (1,5):
+            letra = input("\nIngrese una letra: ")
+            while not letra.isalpha() or len(letra) > 1:
+                print("Error: debe ingresar una sola letra")
+                letra = input("\nIngrese otra letra: ")
+            codigo_parcial += letra
+        print(f"El codigo actual es: {codigo_parcial}")
+
+        if len(codigo_parcial) >= 8:
+            cerraduras_abiertas += 1
+            codigo_parcial = ""
+            print("Se abrio una cerradura")
+            input("\nEnter para continuar")
+        else:
+            print("Al codigo le faltan letras")
+            input("\nEnter para continuar")
+
+    elif opcion == 3:
+        contador_forzar = 0
+        energia += 15
+        if energia > 100:
+            energia = 100
+
+        tiempo -= 1
+
+        if alarma == True:
+            energia -= 10
+
+    elif opcion == 4:
+        print("\nPrograma cerrado")
+        break
+    
+    if cerraduras_abiertas == 3:
+        print("\nGANASTE")
+        break
+
+    if tiempo <=3 and alarma == True:
+        subprocess.run("cls", shell=True)
+        print("\nEl sistema se bloqueo, perdiste")
+        break
+
+    if energia <= 0 or tiempo <= 0:
+        subprocess.run("cls", shell=True)
+        print("\nTe quedaste sin energia, perdiste")
+        break
+
+
