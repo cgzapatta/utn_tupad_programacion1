@@ -171,19 +171,186 @@ for c in al_revez:
 
 # Ejercicio 7
 
+matriz_temperaturas = [[10,35],[11,40],[12,45],[13,36],[14,41],[15,46],[16,50]]
+temp_max_suma = matriz_temperaturas[0][1]
+temp_min_suma = matriz_temperaturas[0][0]
+cantidad_temps = 0
+amplitud_max = 0
+dia_amplitud_max = 0
 
+for i in range(len(matriz_temperaturas)):
+    temp_max_suma += matriz_temperaturas[i][1]
+    temp_min_suma += matriz_temperaturas[i][0]
+    cantidad_temps += 1
+
+    amplitud = matriz_temperaturas[i][1] - matriz_temperaturas[i][0]
+    if amplitud > amplitud_max:
+        amplitud_max = amplitud
+        dia_amplitud_max = i+1
+    
+promedio_max = temp_max_suma / cantidad_temps
+promedio_min = temp_min_suma / cantidad_temps
+
+
+print(f"Promedio maximas: {promedio_max:.2f}, Promedio minimas: {promedio_min:.2f}")
+print(f"La maxima amplitud es: {amplitud_max}, en el dia: {dia_amplitud_max}")
 
 # Ejercicio 8
 
+matriz_notas = [[5,6,7],[5,6,3],[5,5,5],[5,8,3],[5,6,9]]
 
+print("\n== PROMEDIO POR ALUMNO ==")
+for i in range(len(matriz_notas)):
+    suma = 0
+    for j in range(len(matriz_notas[i])):
+        suma += matriz_notas[i][j]
+    promedio = suma / len(matriz_notas[i])
+    print(f" Estudiante {i+1}: {promedio:.2f}")
+
+print("\n== PROMEDIO POR MATERIA ==")
+for i in range(len(matriz_notas[i])):
+    suma = 0
+    for j in range(len(matriz_notas)):
+        suma += matriz_notas[j][i]
+    promedio = suma / len(matriz_notas)
+    print(f" Materia {i+1}: {promedio:.2f}")
 
 # Ejercicio 9
 
 
+linea = [[" --- "," --- "," --- "],[" --- "," --- "," --- "],[" --- "," --- "," --- "]]
+
+turno = 0
+fin = 0
+
+print("\n==== TA - TE - TI ==== ")
+for i in range(3):
+    print(linea[i][0] + linea[i][1] + linea[i][2])
+
+while fin == 0:
+    while turno == 0:
+        print("\n== TURNO JUGADOR X ==")
+        jugadorxf = input("\nJugador X - Ingrese fila: ")
+        while not jugadorxf.isdigit() or int(jugadorxf) not in (1,2,3):
+            print("ERROR - debe ingresar 1, 2 ó 3")
+            jugadorxf = input("Jugador X - Ingrese fila: ")
+        jugadorxf = int(jugadorxf) - 1
+
+        jugadorxc = input("Jugador X - Ingrese columna: ")
+        while not jugadorxc.isdigit() or int(jugadorxc) not in (1,2,3):
+            print("ERROR - debe ingresar 1, 2 ó 3")
+            jugadorxc = input("Jugador X - Ingrese columna: ")
+        jugadorxc = int(jugadorxc) - 1
+
+        if linea[jugadorxf][jugadorxc] != " --- ":
+            print("La casilla ya esta ocupada, vuelva a intentar")
+            input("Enter para continuar")
+        else:
+            linea[jugadorxf][jugadorxc] = "  X  "
+            turno = 1
+
+        subprocess.run("cls", shell=True)
+        print("\n==== TA - TE - TI ==== ")
+        for i in range(3):
+            print(linea[i][0] + linea[i][1] + linea[i][2])
+
+    for i in range(3):
+        if linea[i][0] == "  X  " and  linea[i][1] == "  X  " and linea[i][2] == "  X  ":
+            print(f"\nGanador jugador X, completo la fila {i+1}")
+            fin = 1
+        elif linea[0][i] == "  X  " and  linea[1][i] == "  X  " and linea[2][i] == "  X  ":
+            print(f"\nGanador jugador X, completo la columna {i+1}")
+            fin = 1
+    if linea[0][0] == "  X  " and  linea[1][1] == "  X  " and linea[2][2] == "  X  ":
+        print(f"\nGanador jugador X, completo una diagonal")
+        fin = 1
+    if linea[2][0] == "  X  " and  linea[1][1] == "  X  " and linea[0][2] == "  X  ":
+        print(f"\nGanador jugador X, completo una diagonal")
+        fin = 1
+        
+    while turno == 1 and fin == 0:
+        print(" \n== TURNO JUGADOR O ==")
+        jugadorof = input("\nJugador O - Ingrese fila: ")
+        while not jugadorof.isdigit() or int(jugadorof) not in (1,2,3):
+            print("ERROR - debe ingresar 1, 2 ó 3")
+            jugadorof = input("Jugador O - Ingrese fila: ")
+        jugadorof = int(jugadorof) - 1
+
+        jugadoroc = input("Jugador O - Ingrese columna: ")
+        while not jugadoroc.isdigit() or int(jugadoroc) not in (1,2,3):
+            print("ERROR - debe ingresar 1, 2 ó 3")
+            jugadoroc = input("Jugador O - Ingrese columna: ")
+        jugadoroc = int(jugadoroc) - 1
+
+        if linea[jugadorof][jugadoroc] != " --- ":
+            print("La casilla ya esta ocupada, vuelva a intentar")
+            input("Enter para continuar")
+        else:
+            linea[jugadorof][jugadoroc] = "  O  "
+            turno = 0
+
+        subprocess.run("cls", shell=True)
+        print("\n==== TA - TE - TI ==== ")
+        for i in range(3):
+            print(linea[i][0] + linea[i][1] + linea[i][2])
+
+        for i in range(3):
+            if linea[i][0] == "  O  " and  linea[i][1] == "  O  " and linea[i][2] == "  O  ":
+                print(f"\nGanador jugador O, completo la fila {i+1}")
+                fin = 1
+            elif linea[0][i] == "  O  " and  linea[1][i] == "  O  " and linea[2][i] == "  O  ":
+                print(f"\nGanador jugador O, completo la columna {i+1}")
+                fin = 1
+    if linea[0][0] == "  O  " and  linea[1][1] == "  O  " and linea[2][2] == "  O  ":
+        print(f"\nGanador jugador O, completo una diagonal")
+        fin = 1
+    if linea[2][0] == "  O  " and  linea[1][1] == "  O  " and linea[0][2] == "  O  ":
+        print(f"\nGanador jugador O, completo una diagonal")
+        fin = 1
 
 # Ejercicio 10
 
+matriz_ventas = []
+dia_max_ventas = 0
+producto_max_ventas = 0
+producto_mas_vendido = 0
+max_ventas = 0
 
+for i in range(1,8):
+    ventas = []
+    for j in range(1,5):
+        producto = input("Ingrese cantidad vendida: ")
+        while not producto.isdigit():
+            print("Error, ingrese solo un numero entero")
+            producto = input("Ingrese cantidad vendida: ")
+        producto = int(producto)
+        ventas.append(producto)
+    matriz_ventas.append(ventas)
+
+print("Ventas por producto")
+for i in range(len(matriz_ventas[0])):
+    suma = 0
+    for j in range(len(matriz_ventas)):
+        suma += matriz_ventas[j][i]
+    if suma > producto_max_ventas:
+        producto_max_ventas = suma
+        producto_mas_vendido = i+1
+    print(f"Producto: {i+1}: {suma}")
+
+
+print("Ventas por dia")
+for i in range(len(matriz_ventas)):
+    suma = 0
+    for j in range(len(matriz_ventas[j])):
+        suma += matriz_ventas[i][j]
+    if suma > max_ventas:
+        max_ventas = suma
+        dia_max_ventas = i+1
+    print(f"Dia: {i+1}: {suma}")
+
+print("Maximos")
+print(f"El Producto {producto_mas_vendido} tuvo: {producto_max_ventas} ventas")
+print(f"El dia {dia_max_ventas} tuvo: {max_ventas}")
 
 # Ejercicio 11
 
