@@ -1,7 +1,7 @@
 import subprocess
 
-herramientas = ["martillo", "pinza", "pala"]
-existencias = [5, 7, 8]
+herramientas = []
+existencias = []
 
 bandera = 0
 while bandera == 0:
@@ -17,44 +17,58 @@ while bandera == 0:
     print("7. Actualización de Stock (Venta/Ingreso)")
     print("8. Salir")
 
-    opcion = input("\nIngrese una opcion: ")
+    opcion = input("\nIngrese una opcion: ").strip()
     while not opcion.isdigit() or int(opcion) < 1 or int(opcion) > 8:
-        opcion = input("\nERROR, ingrese una opcion valida: ")
+        opcion = input("\nERROR, ingrese una opcion valida: ").strip()
     opcion = int(opcion)
 
-    if opcion == 1: #Validad que se pueda entrar solo 1 vez
+    if opcion == 8:
+        bandera = 1
+        print("\nSALIENDO DEL PROGRAMA...")
+
+    elif opcion == 1:
         if len(herramientas) == 0:
-            cantidad = input("\nIngrese cantidad de herramientas a cargar: ")
-            while not cantidad.isdigit() or int(cantidad) < 0:
-                cantidad = input("\nERROR, ingrese una cantidad valida: ")
+            cantidad = input("\nIngrese cantidad de herramientas a cargar: ").strip()
+            while not cantidad.isdigit() or int(cantidad) <= 0:
+                cantidad = input("\nERROR, ingrese una cantidad valida: ").strip()
             cantidad = int(cantidad)
+
             for x in range(cantidad):
-                nombre = input("Ingrese nombre de nueva herramienta: ")
-                while not nombre.isalpha():
-                    nombre = input("ERROR, ingrese un nombre valido: ") #Validar espacios
+                nombre = input(f"Ingrese nombre de nueva herramienta {x+1}/{cantidad}: ").strip().lower()
+
+                while (
+                    nombre == "" or
+                    nombre in herramientas or
+                    not all(c.isalpha() or c == " " for c in nombre) or
+                    "  " in nombre
+                ):
+                    nombre = input(f"ERROR, ingrese un nombre valido {x+1}/{cantidad}: ").strip().lower()
+
                 herramientas.append(nombre)
         else:
             print("\nYa se realizó la carga inicial, no se puede volver a realizar por esta opción")
             input("\nEnter para volver al menú...")
 
-    if opcion == 2:
-        if len(herramientas) > 0 and len(existencias) == 0: #validar que se puedar entrar 1 vez y despues de opcion 1
+    elif opcion == 2:
+        if len(herramientas) > 0 and len(existencias) == 0:
             for i in range(len(herramientas)):
                 print(f"\nPara la herramienta: {herramientas[i]}")
-                existencia = input("Ingrese existencia: ")
+                existencia = input("Ingrese existencia: ").strip()
                 while not existencia.isdigit() or int(existencia) < 0:
-                    existencia = input("ERROR, ingrese una existencia valida: ")
+                    existencia = input("ERROR, ingrese una existencia valida: ").strip()
                 existencias.append(int(existencia))
+
         elif len(herramientas) > 0 and len(existencias) > 0:
             print("\nYa se realizó la carga inicial, no se puede volver a realizar por esta opción")
             input("\nEnter para volver al menú...")
-            
+
         else:
             print("\nPrimero debe ingresar los nombres de las herramientas")
             input("\nEnter para volver al menú...")
             continue
 
-    if len(herramientas) > 0 and len(existencias) > 0:
+    elif len(herramientas) > 0 and len(existencias) > 0:
+
         if opcion == 3:
             subprocess.run("cls", shell=True)
             print("\n==== LISTA DE STOCK ====\n")
@@ -64,128 +78,131 @@ while bandera == 0:
             input("\nEnter para volver al menú...")
 
         elif opcion == 4:
-            subprocess.run("cls", shell=True) 
+            subprocess.run("cls", shell=True)
             print("\n==== BUSQUEDA DE HERRAMIENTA ====\n")
-            herramienta_encontrada = False
 
-            seguir_buscando = 1
-            while seguir_buscando == 1:
-                herramienta_buscar = input("Ingrese nombre de herramienta: ") #validar no encontrada
-                if herramienta_buscar not in herramientas:
-                    print("\nERROR, herramienta no existe.")
-                    herramienta_buscar = input("\nEnter para volver a intentar busqueda, 0 para salir: ")
-                    print(herramienta_buscar)
+            herramienta_buscada = input("Ingrese nombre de herramienta: ").strip().lower()
 
-                if herramienta_buscar == "0":
-                    input("\nEnter para volver al menú...")
-                    break
-
-                else:
-                    seguir_buscando = 0
-                    herramienta_encontrada = True
-
-            if herramienta_encontrada:
+            if herramienta_buscada in herramientas:
+                indice = herramientas.index(herramienta_buscada)
                 print("\n==== HERRAMIENTA ENCONTRADA ====\n")
                 print("NOMBRE       CANTIDAD")
-                print(f"{herramienta_buscar:<15} {existencias[herramientas.index(herramienta_buscar)]}")
+                print(f"{herramienta_buscada:<15} {existencias[indice]}")
+                input("\nEnter para volver al menú...")
+            else:
+                print("La herramienta no existe en el sistema.")
                 input("\nEnter para volver al menú...")
 
-        elif opcion == 5: #Validar que no entre cuando no hay agotados
+        elif opcion == 5:
             subprocess.run("cls", shell=True)
-            print("\n==== LISTA DE AGOTADOS ====\n")
-            print("NOMBRE       CANTIDAD")
-            for n in range(len(herramientas)):
-                if existencias[n] == 0:
-                    print(f"{herramientas[n]:<15} {existencias[n]}")
+
+            if 0 in existencias:
+                print("\n==== LISTA DE AGOTADOS ====\n")
+                print("NOMBRE       CANTIDAD")
+                for n in range(len(herramientas)):
+                    if existencias[n] == 0:
+                        print(f"{herramientas[n]:<15} {existencias[n]}")
+            else:
+                print("\nNo existen productos agotados.")
+
             input("\nEnter para volver al menú...")
 
         elif opcion == 6:
             subprocess.run("cls", shell=True)
             print("\n==== INGRESAR NUEVA HERRAMIENTA ====\n")
-            nombre_nueva = input("Ingrese nombre de nueva herramienta: ")
-            if nombre_nueva in herramientas:
-                print("La herraminta ya existe en el sistema.")
-                input("\nEnter para volver al menú...")
-                continue
-            elif nombre_nueva.strip == "":
+
+            nombre_nueva = input("Ingrese nombre de nueva herramienta: ").strip().lower()
+
+            if nombre_nueva == "":
                 print("No se ingreso ningun nombre de herramienta")
                 input("\nEnter para volver al menú...")
                 continue
-            cantidad_nueva = int(input("Ingrese existencia de nueva herramienta: "))
-            if cantidad_nueva <= 0:
-                print("No se permite cantidad negativa.")
+
+            elif nombre_nueva in herramientas:
+                print("La herraminta ya existe en el sistema.")
                 input("\nEnter para volver al menú...")
                 continue
-            
+
+            elif not all(c.isalpha() or c == " " for c in nombre_nueva):
+                print("Nombre inválido")
+                input("\nEnter para volver al menú...")
+                continue
+
+            cantidad_nueva = input("Ingrese existencia de nueva herramienta: ").strip()
+
+            if not cantidad_nueva.isdigit() or int(cantidad_nueva) < 0:
+                print("\nLa cantidad debe ser un numero positivo ó cero.")
+                input("\nEnter para volver al menú...")
+                continue
+
             herramientas.append(nombre_nueva)
-            existencias.append(cantidad_nueva)
+            existencias.append(int(cantidad_nueva))
 
             subprocess.run("cls", shell=True)
             print("==== NUEVA HERRAMIENTA ====")
             print("NOMBRE       CANTIDAD")
-            print(f"{nombre_nueva:<15} {cantidad_nueva}")
+            print(f"{nombre_nueva:<15} {int(cantidad_nueva)}")
             input("\nEnter para volver al menú...")
-
 
         elif opcion == 7:
             subprocess.run("cls", shell=True)
             print("\n==== ACTUALIZACION ====\n")
-            herramienta_actualizada = input("Ingrese nombre de herramienta: ") #validar no encontrada
-            while herramienta_actualizada not in herramientas:
-                herramienta_actualizada = input("ERROR, ingrese un nombre valido: ")
-                
-            print("\nNOMBRE       CANTIDAD")
-            print(f"{herramienta_actualizada:<15} {existencias[herramientas.index(herramienta_actualizada)]}")
 
-            print("\n1. Venta")
-            print("2. Ingreso\n")
+            herramienta_actualizada = input("Ingrese nombre de herramienta: ").strip().lower()
 
-            venta_ingreso = input("Ingrese una opcion: ")
-            while not venta_ingreso.isdigit() or int(venta_ingreso) < 1 or int(venta_ingreso) > 2:
-                venta_ingreso = input("Ingrese una opcion correcta: ")
-            venta_ingreso = int(venta_ingreso)
-            
-            if venta_ingreso == 1:
+            if herramienta_actualizada in herramientas:
+                indice = herramientas.index(herramienta_actualizada)
 
-                cantidad_vendida = input("\nIngrese cantidad vendida: ")
-                while not cantidad_vendida.isdigit() or int(cantidad_vendida) < 0:
-                    cantidad_vendida = input("\nERROR, ingrese una cantidad valida: ")
-                cantidad_vendida = int(cantidad_vendida)
+                print("\nNOMBRE       CANTIDAD")
+                print(f"{herramienta_actualizada:<15} {existencias[indice]}")
 
-                if cantidad_vendida <= existencias[herramientas.index(herramienta_actualizada)]:
-                    existencias[herramientas.index(herramienta_actualizada)] -= cantidad_vendida
+                print("\n1. Venta")
+                print("2. Ingreso\n")
+
+                venta_ingreso = input("Ingrese una opcion: ").strip()
+                while not venta_ingreso.isdigit() or int(venta_ingreso) < 1 or int(venta_ingreso) > 2:
+                    venta_ingreso = input("Ingrese una opcion correcta: ").strip()
+                venta_ingreso = int(venta_ingreso)
+
+                if venta_ingreso == 1:
+
+                    cantidad_vendida = input("\nIngrese cantidad vendida: ").strip()
+                    while not cantidad_vendida.isdigit() or int(cantidad_vendida) < 0:
+                        cantidad_vendida = input("\nERROR, ingrese una cantidad valida: ").strip()
+                    cantidad_vendida = int(cantidad_vendida)
+
+                    if cantidad_vendida <= existencias[indice]:
+                        existencias[indice] -= cantidad_vendida
+                        subprocess.run("cls", shell=True)
+                        print("\n==== ACTUALIZACION: Cambios aplicados ====\n")
+                        print("\nNOMBRE       CANTIDAD")
+                        print(f"{herramienta_actualizada:<15} {existencias[indice]}")
+                        input("\nEnter para volver al menú...")
+                    else:
+                        subprocess.run("cls", shell=True)
+                        print("\n==== ACTUALIZACION ====\n")
+                        print("La cantidad vendida no coincide con las existencias")
+                        input("\nEnter para volver al menú...")
+
+                else:
+
+                    cantidad_ingresada = input("\nIngrese cantidad que ingresó: ").strip()
+                    while not cantidad_ingresada.isdigit() or int(cantidad_ingresada) < 0:
+                        cantidad_ingresada = input("\nERROR, ingrese una cantidad valida: ").strip()
+                    cantidad_ingresada = int(cantidad_ingresada)
+
+                    existencias[indice] += cantidad_ingresada
+
                     subprocess.run("cls", shell=True)
                     print("\n==== ACTUALIZACION: Cambios aplicados ====\n")
                     print("\nNOMBRE       CANTIDAD")
-                    print(f"{herramienta_actualizada:<15} {existencias[herramientas.index(herramienta_actualizada)]}")
+                    print(f"{herramienta_actualizada:<15} {existencias[indice]}")
                     input("\nEnter para volver al menú...")
-                    
-                else:
-                    subprocess.run("cls", shell=True)
-                    print("\n==== ACTUALIZACION ====\n")
-                    print("La cantidad vendida no coincide con las existencias")
-                    input("\nEnter para volver al menú...")
-            
+
             else:
-
-                cantidad_ingresada = input("\nIngrese cantidad que ingresó: ")
-                while not cantidad_ingresada.isdigit() or int(cantidad_ingresada) < 0:
-                    cantidad_ingresada = input("\nERROR, ingrese una cantidad valida: ")
-                cantidad_ingresada = int(cantidad_ingresada)
-
-                existencias[herramientas.index(herramienta_actualizada)] += cantidad_ingresada
-
-                subprocess.run("cls", shell=True)
-                print("\n==== ACTUALIZACION: Cambios aplicados ====\n")
-                print("\nNOMBRE       CANTIDAD")
-                print(f"{herramienta_actualizada:<15} {existencias[herramientas.index(herramienta_actualizada)]}")
+                print("La herramienta no existe en el sistema.")
                 input("\nEnter para volver al menú...")
 
     else:
         print("\nPrimero debe cargar herramientas y existencias")
         input("\nEnter para volver al menú...")
-
-    if opcion == 8:
-        bandera = 1
-        print("\nSALIENDO DEL PROGRAMA...")
-
