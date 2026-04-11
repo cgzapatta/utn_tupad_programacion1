@@ -27,7 +27,7 @@ while bandera == 0:
         print("\nSALIENDO DEL PROGRAMA...")
 
     elif opcion == 1:
-        if len(herramientas) == 0:
+        if len(herramientas) == len(existencias):
             cantidad = input("\nIngrese cantidad de herramientas a cargar: ").strip()
             while not cantidad.isdigit() or int(cantidad) <= 0:
                 cantidad = input("\nERROR, ingrese una cantidad valida: ").strip()
@@ -36,12 +36,7 @@ while bandera == 0:
             for x in range(cantidad):
                 nombre = input(f"Ingrese nombre de nueva herramienta {x+1}/{cantidad}: ").strip().lower()
 
-                while (
-                    nombre == "" or
-                    nombre in herramientas or
-                    not all(c.isalpha() or c == " " for c in nombre) or
-                    "  " in nombre
-                ):
+                while (nombre == "" or nombre in herramientas or not all(c.isalpha() or c == " " for c in nombre) or "  " in nombre):
                     nombre = input(f"ERROR, ingrese un nombre valido {x+1}/{cantidad}: ").strip().lower()
 
                 herramientas.append(nombre)
@@ -49,10 +44,11 @@ while bandera == 0:
             print("\nYa se realizó la carga inicial, no se puede volver a realizar por esta opción")
             input("\nEnter para volver al menú...")
 
-    elif opcion == 2:
-        if len(herramientas) > 0 and len(existencias) == 0:
-            for i in range(len(herramientas)):
-                print(f"\nPara la herramienta: {herramientas[i]}")
+    elif opcion == 2: #validar que ponga las cantidad en la correcta, siempre pone desde el 0
+        if len(herramientas) > 0 and len(existencias) < len(herramientas):
+            indice_herramienta = len(existencias)
+            for i in range(len(herramientas) - len(existencias)):
+                print(f"\nPara la herramienta: {herramientas[i + indice_herramienta]}")
                 existencia = input("Ingrese existencia: ").strip()
                 while not existencia.isdigit() or int(existencia) < 0:
                     existencia = input("ERROR, ingrese una existencia valida: ").strip()
@@ -67,7 +63,7 @@ while bandera == 0:
             input("\nEnter para volver al menú...")
             continue
 
-    elif len(herramientas) > 0 and len(existencias) > 0:
+    elif len(herramientas) > 0 and len(existencias) > 0 and len(herramientas) == len(existencias):
 
         if opcion == 3:
             subprocess.run("cls", shell=True)
